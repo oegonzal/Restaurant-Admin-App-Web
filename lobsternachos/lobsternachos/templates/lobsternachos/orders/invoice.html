@@ -1,0 +1,119 @@
+{%extends 'lobsternachos/blank.html'%}
+{%block title%} - Order{%endblock%}
+
+{% block options_nav %}
+<li class="active openable open">
+  {% endblock %}
+
+  {% block orders_nav %}
+  <li class="active" >
+    {%endblock %}
+
+    {%block breadcrumb%}
+    <li href="/">Orders</li>
+
+    <li class="active">Order Details</li>
+    {%endblock%}
+{%block content%}
+
+<div class="padding-md">
+  <div class="clearfix">
+    <div class="pull-left">
+      <span class="img-demo">
+        <img src="/static/img/lobster_nachos_logo.png">
+      </span>
+      <div class="pull-left m-left-sm">
+        <h3 class="m-bottom-xs m-top-xs">Lobsters & Nachos</h3>
+        <span class="text-muted">contact@lobstersnachos.com</span>
+      </div>
+    </div>
+    <div class="pull-right">
+      <h5><strong>#{{order.key.integer_id}}</strong></h5>
+      <strong>{{order.Created}}</strong>
+    </div>
+  </div>
+  <hr>
+  <div class="clearfix">
+    <div class="pull-left">
+      <h4>Company Information</h4>
+      <address>
+        <strong>Lobsters & Nachos, Inc.</strong><br>
+        9500 Gilman Dr<br>
+        La Jolla, CA 92093<br>
+        <abbr title="Phone">P:</abbr> (619) 456-7890
+      </address>
+    </div>
+
+  </div>
+
+  <table class="table table-striped m-top-md" id="dataTable">
+    <thead>
+      <tr class="bg-theme">
+        <th>No</th>
+        <th>Product</th>
+        <th>Unit Price</th>
+        <th class="hidden-xs">Quantity</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {%for detail in orderDetails%}
+      <tr>
+        <td>#{{detail.item.key.integer_id}}</td>
+        <td>{{detail.item.ItemName}}</td>
+        <td>${{detail.item.Price}}</td>
+        <td class="hidden-xs">{{detail.orderDetail.Quantity}}</td>
+        <td>${{detail.subtotal}}</td>
+      </tr>
+{%endfor%}
+  </table>
+
+  <div class="padding-sm bg-grey">
+    <p>Notes : No additional notes.</p>
+  </div>
+
+  <div class="pull-right">
+    <table class="table m-top-md">
+      <tbody>
+        <tr class="no-border">
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="text-right no-border"><strong>Subtotal</strong></td>
+          <td><strong>${{subtotal|floatformat:2}}</strong></td>
+        </tr>
+        <tr class="no-border">
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="text-right no-border"><strong>Tax</strong></td>
+          <td><strong>${{tax|floatformat:2}}</strong></td>
+        </tr>
+        <tr class="no-border">
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="text-right no-border"><strong>Total</strong></td>
+          <td><strong class="text-danger">${{total|floatformat:2}}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a class="btn btn-success hidden-print" id="invoicePrint"><i class="fa fa-print"></i> Print</a>
+    <a class="btn btn-success hidden-print"><i class="fa fa-usd"></i> Proceed to Payment</a>
+  </div>
+</div><!-- /.padding20 -->
+
+
+                      {%endblock%}
+                      {%block extrajs%}
+
+<script>
+  $(function()	{
+    $('#invoicePrint').click(function()	{
+      window.print();
+    });
+  });
+</script>
+                      {%endblock%}
